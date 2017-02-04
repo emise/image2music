@@ -71,10 +71,10 @@ export default class Base extends React.Component {
                 { this.state.files && !this.state.playlists ?
                   <button className="btn btn-primary"
                           onClick={() => this.processImage(this.state.files[0].name)}>
-                    Upload
+                    Discover
                   </button> :
                   <button className="btn btn-primary" disabled>
-                    Upload
+                    Discover
                   </button>
                 }
                 { this.state.files && this.state.playlists ?
