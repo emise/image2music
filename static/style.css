@@ -1,0 +1,64 @@
+body {
+  font-family: "Helvetica Neue";
+}
+
+h1 {
+  margin-bottom: 60px;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.btn {
+  cursor: pointer;
+  border-radius: 0;
+  font-size: 12px;
+}
+
+.btn-primary {
+  background-color: #0784ef;
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+  background-color: #2f75b1;
+  border-color: #1d65a2;
+}
+.container {
+  width: 90%;
+  max-width: 1440px;
+  margin: auto;
+  padding: 20px 40px;
+}
+
+.upload-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.button-container {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.image-preview-container {
+  width: 600px;
+  background: #e6e6e6;
+  padding: 20px;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 300;
+  color: #585858;
+}
+.image-preview {
+  max-height: 300px;
+  max-width: 580px;
+}
+
+.music-container {
+  background: #e6e6e6;
+}

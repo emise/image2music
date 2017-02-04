@@ -1,0 +1,5 @@
+import requests
+
+SPOTIFY_CLIENT_ID = ***REMOVED***
+SPOTIF_CLIENT_SECRET = ***REMOVED***
+
