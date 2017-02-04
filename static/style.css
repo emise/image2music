@@ -1,11 +1,17 @@
 body {
-  font-family: "Helvetica Neue";
+  font-family: "Helvetica Neue", sans-serif;
+  background-color: #e6e6e6;
 }
 
 h1 {
   margin-bottom: 60px;
   margin-top: 30px;
   text-align: center;
+}
+
+h2 {
+  font-size: 14px;
+  margin-bottom: 40px;
 }
 
 .btn {
@@ -22,11 +28,17 @@ h1 {
   background-color: #2f75b1;
   border-color: #1d65a2;
 }
+.container-wrapper {
+  background-color: white;
+}
 .container {
+  background-color: white;
   width: 90%;
   max-width: 1440px;
   margin: auto;
   padding: 20px 40px;
+  text-align: center;
+  padding-bottom: 40px;
 }
 
 .upload-container {
@@ -43,7 +55,7 @@ h1 {
 }
 
 .image-preview-container {
-  width: 600px;
+  width: 70%;
   background: #e6e6e6;
   padding: 20px;
   min-height: 300px;
@@ -59,6 +71,32 @@ h1 {
   max-width: 580px;
 }
 
-.music-container {
+.music-container-wrapper {
   background: #e6e6e6;
+}
+.playlist-image {
+  width: 300px;
+  height: 300px;
+  background-size: 300px 300px;
+  overflow: hidden;
+  margin: 10px 20px;
+  display: inline-block;
+}
+.playlist-image-overlay {
+  background: rgba(0,0,0,0.6);
+  color: white;
+  padding: 20px;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0.1em;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.music-container-wrapper .container {
+  padding-top: 60px;
+  background-color: #e6e6e6;
 }

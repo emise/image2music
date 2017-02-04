@@ -1,7 +1,7 @@
-# Clarifai API handler
-
 from flask import Blueprint, request, abort, jsonify
 from clarifai.rest import ClarifaiApp
+
+from music_api import get_playlists
 
 
 image_api = Blueprint('image_api', __name__)
@@ -24,17 +24,28 @@ MODELS = {
 C_APP = ClarifaiApp(CLARIFAI_CLIENT_ID, CLARIFAI_CLIENT_SECRET)
 
 
+def get_concepts(model, image):
+    """Get the top 2 concepts for an image"""
+    model = C_APP.models.get(MODELS[model])
+    result = model.predict_by_filename(image)
+
+    concepts = result['outputs'][0].get('data', {}).get('concepts')
+    concept_names = [item['name'] for item in concepts]
+    concept_names = concept_names[:2]
+
+    return concept_names
+
+
 @image_api.route('/api/image', methods=['POST'])
 def process_image():
-    """
-    Return a list of concepts related to an image.
-    """
+    """Process the image and get spotify playlist results"""
     body = request.json
 
     if not body or not 'image' in body:
         abort(400)
 
-    model = C_APP.models.get(MODELS[body['model']])
-    result = model.predict_by_filename(body['image'])
+    concept_names = get_concepts(body['model'], body['image'])
 
-    return jsonify({'result': result['outputs']})
+    results = get_playlists(concept_names)
+
+    return jsonify({'result': results})
