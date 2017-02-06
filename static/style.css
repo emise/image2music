@@ -1,17 +1,20 @@
 body {
-  font-family: "Helvetica Neue", sans-serif;
+  font-family: "Yantramanav", "Helvetica Neue", sans-serif;
   background-color: #e6e6e6;
 }
 
 h1 {
+  font-family: "Lora", serif;
   margin-bottom: 60px;
   margin-top: 30px;
   text-align: center;
+  font-weight: 700;
 }
 
 h2 {
   font-size: 14px;
   margin-bottom: 40px;
+  font-weight: 700;
 }
 
 .btn {
@@ -94,6 +97,13 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.playlist-image-overlay:hover,
+.playlist-image-overlay:link,
+.playlist-image-overlay:visited {
+  color: white;
+  text-decoration: none;
 }
 
 .music-container-wrapper .container {

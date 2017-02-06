@@ -13,6 +13,23 @@ export default class Base extends React.Component {
     }
   }
 
+  spotifyLogIn = () => {
+    axios.get('/auth/spotify', {}).then(res => {
+      console.log(res);
+    })
+  }
+
+  getPlaylist = (user, playlistId) => {
+    axios.get('/api/playlist', {
+      params: {
+        user: user,
+        playlist_id: playlistId
+      }
+    }).then(res => {
+      console.log("playlist", res)
+    })
+  }
+
   onDrop = (files) => {
     this.setState({
       files: files
@@ -95,7 +112,11 @@ export default class Base extends React.Component {
                 <div key={item.id}
                      style={{backgroundImage: 'url(' + (item.images[1]||item.images[0]).url + ')'}}
                      className="playlist-image">
-                  <div className="playlist-image-overlay">{item.name}</div>
+                  <a className="playlist-image-overlay"
+                     href={item.external_urls.spotify}
+                     target="_blank">
+                    {item.name}
+                  </a>
                 </div>
               ) : null
             }
