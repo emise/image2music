@@ -25,9 +25,13 @@ C_APP = ClarifaiApp(CLARIFAI_CLIENT_ID, CLARIFAI_CLIENT_SECRET)
 
 
 def get_concepts(model, image):
-    """Get the top 2 concepts for an image"""
+    """Get the top 2 concepts for an image
+
+    model: the Clarifai model we want to use to classify the image
+    image: a string in base64
+    """
     model = C_APP.models.get(MODELS[model])
-    result = model.predict_by_filename(image)
+    result = model.predict_by_base64(image)
 
     concepts = result['outputs'][0].get('data', {}).get('concepts')
     concept_names = [item['name'] for item in concepts]

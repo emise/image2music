@@ -37,9 +37,7 @@ export default class Base extends React.Component {
     console.log('received files', files)
   }
 
-  // Get a list of playlists from a processed image
-  // By default we use the 'general-v1.3' model from Clarifai
-  processImage = (image) => {
+  postImage = (image) => {
     axios.post('/api/image', {
       image: image,
       model: 'general'
@@ -53,6 +51,21 @@ export default class Base extends React.Component {
     })
   }
 
+  // Get a list of playlists from a processed image
+  // By default we use the 'general-v1.3' model from Clarifai
+  processImage = (image) => {
+    // encode image as base64 string
+    let reader = new FileReader();
+    reader.readAsDataURL(image);
+    reader.onloadend = () => {
+      let bytes = reader.result.split('base64,')[1];
+      // send image to server
+      if (bytes) {
+        this.postImage(bytes);
+      }
+    }
+  }
+
   resetUpload = () => {
     this.setState({
       playlists: null,
@@ -61,8 +74,6 @@ export default class Base extends React.Component {
   }
 
   componentDidMount() {
-
-    let self = this;
 
   }
 
@@ -87,7 +98,7 @@ export default class Base extends React.Component {
               <div className="button-container">
                 { this.state.files && !this.state.playlists ?
                   <button className="btn btn-primary"
-                          onClick={() => this.processImage(this.state.files[0].name)}>
+                          onClick={() => this.processImage(this.state.files[0])}>
                     Discover
                   </button> :
                   <button className="btn btn-primary" disabled>
