@@ -11,7 +11,7 @@ export default class Base extends React.Component {
     this.state = {
       playlists: null,
       files: null,
-      loading: false
+      loading: false,
     }
   }
 
@@ -21,14 +21,22 @@ export default class Base extends React.Component {
     })
   }
 
+  showSongs = (index) => {
+    this.state.playlists[index].hovered = true
+    this.setState({playlists: this.state.playlists})
+  }
+
+  hideSongs = (index) => {
+    this.state.playlists[index].hovered = false
+    this.setState({playlists: this.state.playlists})
+  }
+
   postImage = (image) => {
     axios.post('/api/image', {
       image: image,
       model: 'general'
     }).then(res => {
       let data = res.data.result
-      console.log(data)
-
       this.setState({
         playlists: data,
         loading: false
@@ -78,7 +86,7 @@ export default class Base extends React.Component {
               <div className="image-preview-container">
                 { this.state.loading ?
                   <div className="loading-container">
-                    <h3>Calculating music...</h3>
+                    <h3>Calculating...</h3>
                     <img src="/static/spinner.svg"/>
                   </div> : null
                 }
@@ -115,14 +123,26 @@ export default class Base extends React.Component {
         <div className="music-container-wrapper">
           <Scroll.Element name="playlistContainer" className="container">
             { this.state.playlists ?
-              this.state.playlists.map( (item) =>
+              this.state.playlists.map( (item, index) =>
                 <div key={item.id}
                      style={{backgroundImage: 'url(' + (item.images[1]||item.images[0]).url + ')'}}
                      className="playlist-image">
                   <a className="playlist-image-overlay"
                      href={item.external_urls.spotify}
-                     target="_blank">
-                    {item.name}
+                     target="_blank"
+                     onMouseEnter={() => this.showSongs(index)}
+                     onMouseLeave={() => this.hideSongs(index)}>
+                    { item.hovered ?
+                      <div className="tracks-container">
+                        { item.tracks.map((track, index) =>
+                              <div key={index} className="track-item">
+                                {track.name} - <span className="artist-name">{track.artist}</span>
+                              </div>
+                            )
+                        }
+                        more...
+                      </div> : <span>{item.name}</span>
+                    }
                   </a>
                 </div>
               ) : null

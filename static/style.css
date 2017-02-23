@@ -20,7 +20,7 @@ h2 {
 h3 {
   font-size: 18px;
   margin-bottom: 20px;
-  font-weight: 300;
+  font-weight: 700;
 }
 
 .btn {
@@ -83,7 +83,7 @@ h3 {
 
 .loading-container {
   position: absolute;
-  background: rgba(230, 230, 230, 0.9);
+  background: rgba(230, 230, 230, 0.95);
   z-index: 1000;
   height: 100%;
   width: 100%;
@@ -122,6 +122,18 @@ h3 {
 .playlist-image-overlay:visited {
   color: white;
   text-decoration: none;
+}
+
+.tracks-container {
+  letter-spacing: initial;
+}
+
+.track-item {
+  margin-bottom: 10px;
+}
+
+.artist-name {
+  color: #65ccff;
 }
 
 .music-container-wrapper .container {
