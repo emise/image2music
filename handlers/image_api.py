@@ -1,3 +1,5 @@
+from random import shuffle
+
 from flask import Blueprint, request, abort, jsonify
 from clarifai.rest import ClarifaiApp
 
@@ -35,7 +37,7 @@ def get_concepts(model, image):
 
     concepts = result['outputs'][0].get('data', {}).get('concepts')
     concept_names = [item['name'] for item in concepts]
-    concept_names = concept_names[:2]
+    concept_names = concept_names[:4]
 
     return concept_names
 
@@ -50,6 +52,12 @@ def process_image():
 
     concept_names = get_concepts(body['model'], body['image'])
 
-    results = get_playlists(concept_names)
+    results1 = get_playlists(concept_names[:2])
+    results2 = get_playlists(concept_names[2:])
+    length = len(results1) / 2
+
+    results = results1[:length] + results2[length:]
+
+    shuffle(results)
 
     return jsonify({'result': results})
