@@ -64,6 +64,7 @@ h3 {
 }
 
 .image-preview-container {
+  position: relative;
   width: 70%;
   background: #e6e6e6;
   padding: 20px;
@@ -78,6 +79,17 @@ h3 {
 .image-preview {
   max-height: 300px;
   max-width: 580px;
+}
+
+.loading-container {
+  position: absolute;
+  background: rgba(230, 230, 230, 0.9);
+  z-index: 1000;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .music-container-wrapper {

@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios'
 import ReactDropzone from 'react-dropzone'
+import Scroll from 'react-scroll'
 
 
 export default class Base extends React.Component {
@@ -18,7 +19,6 @@ export default class Base extends React.Component {
     this.setState({
       files: files
     })
-    console.log('received files', files)
   }
 
   postImage = (image) => {
@@ -30,11 +30,14 @@ export default class Base extends React.Component {
       console.log(data)
 
       this.setState({
-        playlists: data
+        playlists: data,
+        loading: false
       })
 
-      this.setState({
-        loading: false
+      Scroll.scroller.scrollTo('playlistContainer', {
+        duration: 800,
+        delay: 100,
+        smooth: true
       })
     })
   }
@@ -73,6 +76,12 @@ export default class Base extends React.Component {
             <h2>*Requires Spotify to listen</h2>
             <div className="upload-container">
               <div className="image-preview-container">
+                { this.state.loading ?
+                  <div className="loading-container">
+                    <h3>Calculating music...</h3>
+                    <img src="/static/spinner.svg"/>
+                  </div> : null
+                }
                 { this.state.files ?
                   this.state.files.map( (file, index) =>
                     <img key={index} src={file.preview} className="image-preview"/>
@@ -104,14 +113,7 @@ export default class Base extends React.Component {
           </div>
         </div>
         <div className="music-container-wrapper">
-          <div className="container">
-            {
-              this.state.loading ?
-              <div>
-                <h3>Calculating the best music...</h3>
-                <img src="/static/spinner.svg"/>
-              </div> : null
-            }
+          <Scroll.Element name="playlistContainer" className="container">
             { this.state.playlists ?
               this.state.playlists.map( (item) =>
                 <div key={item.id}
@@ -125,7 +127,7 @@ export default class Base extends React.Component {
                 </div>
               ) : null
             }
-          </div>
+          </Scroll.Element>
         </div>
       </div>
     );
