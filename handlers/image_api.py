@@ -8,8 +8,8 @@ from music_api import get_playlists, get_playlist_songs
 
 image_api = Blueprint('image_api', __name__)
 
-CLARIFAI_CLIENT_ID = ***REMOVED***
-CLARIFAI_CLIENT_SECRET = ***REMOVED***
+CLARIFAI_CLIENT_ID = '***REMOVED***'
+CLARIFAI_CLIENT_SECRET = '***REMOVED***'
 
 MODELS = {
     'general': 'aaa03c23b3724a16a56b629203edc62c',
