@@ -100,7 +100,7 @@ export default class Base extends React.Component {
                 }
               </div>
               <div className="button-container">
-                { this.state.files && !this.state.playlists ?
+                { this.state.files && !this.state.playlists && !this.state.loading ?
                   <button className="btn btn-primary"
                           onClick={() => this.processImage(this.state.files[0])}>
                     Discover
@@ -140,7 +140,7 @@ export default class Base extends React.Component {
                               </div>
                             )
                         }
-                        <span className="highlight-item">more...</span>
+                        <span className="subdued-item">more...</span>
                       </div> : <span>{item.name}</span>
                     }
                   </a>

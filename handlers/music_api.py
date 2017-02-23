@@ -62,7 +62,7 @@ def get_playlist_songs(playlists):
             result[playlist_id].append(
                 {
                     'name': song['track']['name'],
-                    'artist': ','.join(art)
+                    'artist': ', '.join(art)
                 }
             )
     return result

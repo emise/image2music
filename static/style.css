@@ -20,7 +20,7 @@ h2 {
 h3 {
   font-size: 18px;
   margin-bottom: 20px;
-  font-weight: 700;
+  font-weight: 300;
 }
 
 .btn {
@@ -129,11 +129,14 @@ h3 {
 }
 
 .track-item {
-  margin-bottom: 15px;
+  margin-bottom: 8px;
 }
 
 .highlight-item {
   color: #65ccff;
+}
+.subdued-item {
+  color: #979797;
 }
 
 .music-container-wrapper .container {
