@@ -3,7 +3,7 @@ from random import shuffle
 from flask import Blueprint, request, abort, jsonify
 from clarifai.rest import ClarifaiApp
 
-from music_api import get_playlists
+from music_api import get_playlists, get_playlist_songs
 
 
 image_api = Blueprint('image_api', __name__)
@@ -27,7 +27,7 @@ C_APP = ClarifaiApp(CLARIFAI_CLIENT_ID, CLARIFAI_CLIENT_SECRET)
 
 
 def get_concepts(model, image):
-    """Get the top 2 concepts for an image
+    """Get the top 4 concepts for an image
 
     model: the Clarifai model we want to use to classify the image
     image: a string in base64
@@ -52,12 +52,24 @@ def process_image():
 
     concept_names = get_concepts(body['model'], body['image'])
 
-    results1 = get_playlists(concept_names[:2])
-    results2 = get_playlists(concept_names[2:])
-    length = len(results1) / 2
+    p1 = get_playlists(concept_names[:2])
+    p2 = get_playlists(concept_names[2:])
+    length = len(p1) / 2
 
-    results = results1[:length] + results2[length:]
+    playlists = p1[:length] + p2[length:]
 
-    shuffle(results)
+    processed_playlist_data = [
+        {'user': p['owner']['id'], 'playlist_id': p['id']}
+        for p in playlists
+    ]
 
-    return jsonify({'result': results})
+    # Get top 4 songs for each playlist
+    songs = get_playlist_songs(processed_playlist_data)
+
+    for p in playlists:
+        p['tracks'] = songs[p['id']]
+
+    # Shuffle results for different concepts
+    shuffle(playlists)
+
+    return jsonify({'result': playlists})

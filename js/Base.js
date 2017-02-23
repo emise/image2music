@@ -13,23 +13,6 @@ export default class Base extends React.Component {
     }
   }
 
-  spotifyLogIn = () => {
-    axios.get('/auth/spotify', {}).then(res => {
-      console.log(res);
-    })
-  }
-
-  getPlaylist = (user, playlistId) => {
-    axios.get('/api/playlist', {
-      params: {
-        user: user,
-        playlist_id: playlistId
-      }
-    }).then(res => {
-      console.log("playlist", res)
-    })
-  }
-
   onDrop = (files) => {
     this.setState({
       files: files
@@ -58,10 +41,10 @@ export default class Base extends React.Component {
     let reader = new FileReader();
     reader.readAsDataURL(image);
     reader.onloadend = () => {
-      let bytes = reader.result.split('base64,')[1];
+      let imageStr = reader.result.split('base64,')[1];
       // send image to server
-      if (bytes) {
-        this.postImage(bytes);
+      if (imageStr) {
+        this.postImage(imageStr);
       }
     }
   }
@@ -71,10 +54,6 @@ export default class Base extends React.Component {
       playlists: null,
       files: null
     })
-  }
-
-  componentDidMount() {
-
   }
 
   render() {
