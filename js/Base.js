@@ -94,7 +94,7 @@ export default class Base extends React.Component {
                   this.state.files.map( (file, index) =>
                     <img key={index} src={file.preview} className="image-preview"/>
                   ) :
-                  <ReactDropzone onDrop={this.onDrop} className="image-preview-container">
+                  <ReactDropzone onDrop={this.onDrop} accept="image/*" className="image-preview-container">
                     Drag and drop an image here, or click to upload one
                   </ReactDropzone>
                 }
@@ -136,11 +136,11 @@ export default class Base extends React.Component {
                       <div className="tracks-container">
                         { item.tracks.map((track, index) =>
                               <div key={index} className="track-item">
-                                {track.name} - <span className="artist-name">{track.artist}</span>
+                                {track.name} - <span className="highlight-item">{track.artist}</span>
                               </div>
                             )
                         }
-                        more...
+                        <span className="highlight-item">more...</span>
                       </div> : <span>{item.name}</span>
                     }
                   </a>
