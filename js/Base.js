@@ -9,7 +9,8 @@ export default class Base extends React.Component {
     super()
     this.state = {
       playlists: null,
-      files: null
+      files: null,
+      loading: false
     }
   }
 
@@ -31,12 +32,19 @@ export default class Base extends React.Component {
       this.setState({
         playlists: data
       })
+
+      this.setState({
+        loading: false
+      })
     })
   }
 
   // Get a list of playlists from a processed image
   // By default we use the 'general-v1.3' model from Clarifai
   processImage = (image) => {
+    this.setState({
+      loading: true
+    })
     // encode image as base64 string
     let reader = new FileReader();
     reader.readAsDataURL(image);
@@ -97,6 +105,13 @@ export default class Base extends React.Component {
         </div>
         <div className="music-container-wrapper">
           <div className="container">
+            {
+              this.state.loading ?
+              <div>
+                <h3>Calculating the best music...</h3>
+                <img src="/static/spinner.svg"/>
+              </div> : null
+            }
             { this.state.playlists ?
               this.state.playlists.map( (item) =>
                 <div key={item.id}

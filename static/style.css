@@ -17,6 +17,12 @@ h2 {
   font-weight: 700;
 }
 
+h3 {
+  font-size: 18px;
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+
 .btn {
   cursor: pointer;
   border-radius: 0;

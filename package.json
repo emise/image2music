@@ -20,8 +20,9 @@
   },
   "dependencies": {
     "axios": "^0.15.3",
-    "react": "^0.14.7",
-    "react-dom": "^0.14.7",
-    "react-dropzone": "^3.9.2"
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-dropzone": "^3.9.2",
+    "react-scroll": "^1.4.6"
   }
 }
