@@ -4,6 +4,7 @@ This app allows you to discover new music based on the theme of an uploaded imag
 
 # APIs used
 Clarifai - https://developer.clarifai.com/
+
 Spotify - https://developer.spotify.com/web-api/
 
 ## Setup
