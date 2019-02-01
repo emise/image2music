@@ -81,7 +81,7 @@ export default class Base extends React.Component {
         <div className="container-wrapper">
           <div className="container">
             <h1>Discover New Music</h1>
-            <a href="https://github.com/emise/flask-react-app" target="_blank">github</a>
+            <a href="https://github.com/emise/image2music" target="_blank">github</a>
             <h2 class="subheading">*Requires Spotify to listen</h2>
             <div className="upload-container">
               <div className="image-preview-container">
