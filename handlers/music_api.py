@@ -1,4 +1,4 @@
-import requests
+import os
 import spotipy
 
 from spotipy.oauth2 import SpotifyClientCredentials
@@ -10,8 +10,12 @@ music_api = Blueprint('music_api', __name__)
 
 SP_SEARCH_API = "https://api.spotify.com/v1/search"
 
-SP_CLIENT_ID = "yours"
-SP_CLIENT_SECRET = "yours"
+SP_CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID')
+SP_CLIENT_SECRET = os.environ.get('SPOTIFY_CLIENT_SECRET')
+# Auth account
+client_credentials_manager = SpotifyClientCredentials(client_id=SP_CLIENT_ID,
+                                                      client_secret=SP_CLIENT_SECRET)
+sp_client = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 
 def get_playlist_songs(playlists):
@@ -40,18 +44,12 @@ def get_playlist_songs(playlists):
             ...
         }
     """
-
-    # Auth account
-    client_credentials_manager = SpotifyClientCredentials(client_id=SP_CLIENT_ID,
-                                                          client_secret=SP_CLIENT_SECRET)
-    sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
-
     # Fetch playlist song data
     result = {}
     for playlist in playlists:
         playlist_id = playlist['playlist_id']
         result[playlist_id] = []
-        p_data = sp.user_playlist(playlist['user'], playlist['playlist_id'])
+        p_data = sp_client.user_playlist(playlist['user'], playlist['playlist_id'])
         # Only get the first 4 tracks
         p_data = p_data['tracks']['items'][:4]
         for song in p_data:
@@ -75,15 +73,9 @@ def get_playlists(args):
         args: (list)
             [(str), (str)]
     """
-
     concept_str = " OR ".join(args)
 
-    payload = {
-        'q': concept_str,
-        'type': 'playlist'
-    }
-
-    response = requests.get(SP_SEARCH_API, params=payload)
-    r = response.json().get('playlists', {}).get('items')
+    response = sp_client.search(q=concept_str, type='playlist')
+    r = response.get('playlists', {}).get('items')
 
     return r

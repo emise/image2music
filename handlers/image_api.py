@@ -1,15 +1,13 @@
+import os
 from random import shuffle
 
 from flask import Blueprint, request, abort, jsonify
 from clarifai.rest import ClarifaiApp
 
-from music_api import get_playlists, get_playlist_songs
+from handlers.music_api import get_playlists, get_playlist_songs
 
 
 image_api = Blueprint('image_api', __name__)
-
-CLARIFAI_CLIENT_ID = 'yours'
-CLARIFAI_CLIENT_SECRET = 'yours'
 
 MODELS = {
     'general': 'aaa03c23b3724a16a56b629203edc62c',
@@ -23,7 +21,7 @@ MODELS = {
     'celebrity': 'e466caa0619f444ab97497640cefc4dc',
 }
 
-C_APP = ClarifaiApp(CLARIFAI_CLIENT_ID, CLARIFAI_CLIENT_SECRET)
+C_APP = ClarifaiApp(api_key=str(os.environ.get('CLARIFAI_API_KEY')))
 
 
 def get_concepts(model, image):
@@ -34,6 +32,7 @@ def get_concepts(model, image):
     """
     model = C_APP.models.get(MODELS[model])
     result = model.predict_by_base64(image)
+    print(f'results are {result}')
 
     concepts = result['outputs'][0].get('data', {}).get('concepts')
     concept_names = [item['name'] for item in concepts]
@@ -50,11 +49,11 @@ def process_image():
     if not body or not 'image' in body:
         abort(400)
 
-    concept_names = get_concepts(body['model'], body['image'])
+    concept_names = get_concepts(body['model'], str.encode(body['image']))
 
     p1 = get_playlists(concept_names[:2])
     p2 = get_playlists(concept_names[2:])
-    length = len(p1) / 2
+    length = int(len(p1) / 2)
 
     playlists = p1[:length] + p2[length:]
 
