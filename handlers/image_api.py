@@ -32,7 +32,6 @@ def get_concepts(model, image):
     """
     model = C_APP.models.get(MODELS[model])
     result = model.predict_by_base64(image)
-    print(f'results are {result}')
 
     concepts = result['outputs'][0].get('data', {}).get('concepts')
     concept_names = [item['name'] for item in concepts]

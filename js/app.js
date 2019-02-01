@@ -1,10 +1,9 @@
-import Base from './Base';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import Base from './Base';
+import { render } from "react-dom";
 
 
-ReactDOM.render(
-  <Base/>,
+render(
+  <Base />,
   document.getElementById('reactEntry')
 );
-

@@ -1,3 +1,4 @@
+var path = require('path');
 var webpack = require('webpack');  
 module.exports = {  
   entry: [
@@ -7,18 +8,18 @@ module.exports = {
     path: __dirname + '/static',
     filename: "bundle.js"
   },
+  resolve: {
+    extensions: ['.js', '.jsx']
+  },
   module: {
-    loaders: [
+    rules: [
       {
-        test: /\.js?$/,
+        test: /\.jsx?$/,
         loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'stage-1', 'react']
-        },
+        include: path.join(__dirname, 'js'),
         exclude: /node_modules/
       }
     ]
   },
-  plugins: [
-  ]
+  plugins: []
 };

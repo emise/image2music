@@ -5,16 +5,19 @@ body {
 
 h1 {
   font-family: "Lora", serif;
-  margin-bottom: 60px;
   margin-top: 30px;
   text-align: center;
   font-weight: 700;
 }
 
 h2 {
+  margin-top: 60px;;
   font-size: 14px;
-  margin-bottom: 40px;
   font-weight: 700;
+}
+
+.subheading {
+  margin-bottom: 40px;
 }
 
 h3 {
