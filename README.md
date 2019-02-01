@@ -12,7 +12,7 @@ Clarifai - https://developer.clarifai.com/
 Spotify - https://developer.spotify.com/web-api/
 
 ## Setup
-`pip install -r requirements3.txt`
+`pip install -r requirements.txt`
 
 `npm install -g webpack`
 
