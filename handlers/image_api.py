@@ -20,24 +20,9 @@ MODELS = {
     'apparel': 'e0be3b9d6a454f0493ac3a30784001ff',
     'celebrity': 'e466caa0619f444ab97497640cefc4dc',
 }
+PEOPLE_CONCEPTS = ['woman', 'man', 'child', 'children']
 
 C_APP = ClarifaiApp(api_key=str(os.environ.get('CLARIFAI_API_KEY')))
-
-
-def get_concepts(model, image):
-    """Get the top 4 concepts for an image
-
-    model: the Clarifai model we want to use to classify the image
-    image: a string in base64
-    """
-    model = C_APP.models.get(MODELS[model])
-    result = model.predict_by_base64(image)
-
-    concepts = result['outputs'][0].get('data', {}).get('concepts')
-    concept_names = [item['name'] for item in concepts]
-    concept_names = concept_names[:4]
-
-    return concept_names
 
 
 @image_api.route('/api/image', methods=['POST'])
@@ -48,7 +33,7 @@ def process_image():
     if not body or not 'image' in body:
         abort(400)
 
-    concept_names = get_concepts(body['model'], str.encode(body['image']))
+    concept_names = _get_concepts(body['model'], str.encode(body['image']))
 
     p1 = get_playlists(concept_names[:2])
     p2 = get_playlists(concept_names[2:])
@@ -71,3 +56,51 @@ def process_image():
     shuffle(playlists)
 
     return jsonify({'result': playlists})
+
+
+def _get_concepts(model, image):
+    """
+    Get the top 4 concepts for an image. If there are people in the image, we also
+    try to find the top celebrity match.
+
+    model: the Clarifai model we want to use to classify the image
+    image: a string in base64
+    """
+    model = C_APP.models.get(MODELS[model])
+    result = model.predict_by_base64(image)
+
+    concepts = result['outputs'][0].get('data', {}).get('concepts', [])
+    concept_names = [item['name'] for item in concepts]
+
+    celebrities = []
+    if list(set(concept_names) & set(PEOPLE_CONCEPTS)):
+        celebrities = _find_celebrities(image)
+    concept_names = celebrities + concept_names[:4]
+    print(concept_names)
+    if len(concept_names) > 4:
+        concept_names = concept_names[:4]
+    return concept_names
+
+
+def _find_celebrities(image):
+    """Get the top matching celebrity for each identified person."""
+    model = C_APP.models.get(MODELS['celebrity'])
+    result = model.predict_by_base64(image)
+    regions = result['outputs'][0].get('data', {}).get('regions', [])
+
+    celebs = []
+    if regions:
+        for region in regions:
+            concepts = (region.get('data', {})
+                        .get('face', {})
+                        .get('identity', {})
+                        .get('concepts', []))
+            if concepts:
+                celebs.append(concepts[0]['name'])
+
+    return celebs
+
+
+def _get_concept_names(result):
+    concepts = result['outputs'][0].get('data', {}).get('concepts', [])
+    return [item['name'] for item in concepts]

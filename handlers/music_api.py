@@ -7,9 +7,6 @@ from flask import Blueprint, jsonify, request
 
 music_api = Blueprint('music_api', __name__)
 
-
-SP_SEARCH_API = "https://api.spotify.com/v1/search"
-
 SP_CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID')
 SP_CLIENT_SECRET = os.environ.get('SPOTIFY_CLIENT_SECRET')
 # Auth account
