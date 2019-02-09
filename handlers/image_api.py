@@ -4,7 +4,8 @@ from random import shuffle
 from flask import Blueprint, request, abort, jsonify
 from clarifai.rest import ClarifaiApp
 
-from handlers.music_api import get_playlists, get_playlist_songs
+from services.music_service import get_playlists, get_playlist_songs
+from settings import CLARIFAI_API_KEY
 
 
 image_api = Blueprint('image_api', __name__)
@@ -22,7 +23,7 @@ MODELS = {
 }
 PEOPLE_CONCEPTS = ['woman', 'man', 'child', 'children']
 
-C_APP = ClarifaiApp(api_key=str(os.environ.get('CLARIFAI_API_KEY')))
+clarifai_app = ClarifaiApp(api_key=CLARIFAI_API_KEY)
 
 
 @image_api.route('/api/image', methods=['POST'])
@@ -66,7 +67,7 @@ def _get_concepts(model, image):
     model: the Clarifai model we want to use to classify the image
     image: a string in base64
     """
-    model = C_APP.models.get(MODELS[model])
+    model = clarifai_app.models.get(MODELS[model])
     result = model.predict_by_base64(image)
 
     concepts = result['outputs'][0].get('data', {}).get('concepts', [])
@@ -84,7 +85,7 @@ def _get_concepts(model, image):
 
 def _find_celebrities(image):
     """Get the top matching celebrity for each identified person."""
-    model = C_APP.models.get(MODELS['celebrity'])
+    model = clarifai_app.models.get(MODELS['celebrity'])
     result = model.predict_by_base64(image)
     regions = result['outputs'][0].get('data', {}).get('regions', [])
 
@@ -99,8 +100,3 @@ def _find_celebrities(image):
                 celebs.append(concepts[0]['name'])
 
     return celebs
-
-
-def _get_concept_names(result):
-    concepts = result['outputs'][0].get('data', {}).get('concepts', [])
-    return [item['name'] for item in concepts]

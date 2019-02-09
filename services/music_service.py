@@ -1,14 +1,8 @@
-import os
 import spotipy
-
 from spotipy.oauth2 import SpotifyClientCredentials
-from flask import Blueprint, jsonify, request
 
+from settings import SP_CLIENT_ID, SP_CLIENT_SECRET
 
-music_api = Blueprint('music_api', __name__)
-
-SP_CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID')
-SP_CLIENT_SECRET = os.environ.get('SPOTIFY_CLIENT_SECRET')
 # Auth account
 client_credentials_manager = SpotifyClientCredentials(client_id=SP_CLIENT_ID,
                                                       client_secret=SP_CLIENT_SECRET)
